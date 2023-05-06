@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<p>Do you want to delete <b>"{{ product }}"?</b></p>
+
+<form action="{% url 'delete_product' product.id %}" method="POST">
+    {% csrf_token %}
+    <a class="btn btn-sm btn-danger" href="{% url 'site_admin' %}">Cancel</a>
+    <input class="btn btn-sm btn-info" type="submit" name="Confirm">
+</form>
+
+{% endblock content %}
+

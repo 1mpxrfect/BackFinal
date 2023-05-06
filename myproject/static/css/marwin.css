@@ -1,0 +1,84 @@
+body {
+    font-family:'Arial';
+    overflow-x: hidden;
+}
+.navbar {
+    height: 5vw;
+    font-size: 25px;
+}
+.navbar-brand {
+    font-size: 25px;
+}
+
+.navbar-brand > img {
+    height: 60px;
+}
+
+nav > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: 1vw;
+}
+nav > div > a {
+    color: rgba(245,15,100);
+    text-decoration: none;
+}
+nav > div > input {
+    padding: 0.8vw 1vw;
+    width: 25vw;
+    border: none;
+    border-radius: 0.7vw;
+    background-color: rgb(231, 231, 231);
+}
+nav > div > select {
+    padding: 0.8vw;
+    width: 10vw;
+    border: none;
+    border-radius: 0.7vw;
+    background-color: rgb(231, 231, 231);
+}
+nav > div > button {
+    padding: 0.8vw;
+    border: none;
+    border-radius: 0.7vw;
+}
+.product-list {
+    width: 100vw;
+    height: 40vw;
+}
+
+ul {
+    list-style-type: none;
+}
+li {
+    float: left;
+    padding: 0 1vw;
+}
+li:hover {
+    color: rgba(245,15,100);
+}
+#total-orders {
+    background-color: #4cb4c7;
+}
+#total-products {
+    background-color: #4cb4c7;
+}
+#admin-now {
+    background-color: #4cb4c7;
+}
+#first-block {
+    background-color: #4cb4c7;
+}
+#second-block {
+    background-color: #4cb4c7;
+}
+#third-block {
+    background-color: #4cb4c7;
+}
+#fourth-block {
+    background-color: #4cb4c7;
+}
+#five-block {
+    background-color: #4cb4c7;
+}

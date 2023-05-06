@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+.form-add {
+margin-left: 500px;
+border: 2px solid #000;
+width: 30%;
+display: flex;
+flex-wrap: flex;
+justify-content: center;
+}
+.form-add > form *{
+    font-family: 'Poppins',sans-serif;
+    color: black;
+    letter-spacing: 0.5px;
+}
+
+.form-add > form > label{
+    display: block;
+    font-size: 16px;
+    font-weight: 55px;
+}
+.form-add > form > input{
+    display: block;
+    height: 40px;
+    width: 100%;
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+</style>
+<div class="form-add">
+<form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ f }}
+
+        <input class="btn btn-sm btn-info" type="submit" name="submit">
+    </form>
+    </div>
+
+{% endblock content %}

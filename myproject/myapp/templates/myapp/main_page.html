@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% include 'myapp/carousel.html' %}
+
+<div class="row">
+  <div class="col">
+    <div class="col-md">
+      <div class="card text-center text-white mb-3" id="first-block">
+          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'games' %}">
+        <div class="card-body">
+          <img src="{% static 'images/gamepng.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Games</h3>
+        </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="col-md">
+      <div class="card text-center text-white mb-3" id="second-block">
+          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'books' %}">
+
+        <div class="card-body">
+          <img src="{% static 'images/books.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Books</h3>
+        </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="col-md">
+      <div class="card text-center text-white mb-3" id="third-block">
+          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'toys' %}">
+        <div class="card-body">
+          <img src="{% static 'images/toys.png' %}" class="img-thumbnail" width="150px"  style="border-radius: 50%">
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Toys</h3>
+        </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col">
+    <div class="col-md">
+      <div class="card text-center text-white mb-3" id="fourth-block">
+          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
+        <div class="card-body">
+          <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Sweets</h3>
+        </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="col-md">
+      <div class="card text-center text-white mb-3 color-card" id="five-block">
+          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
+        <div class="card-body">
+          <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
+        </div>
+        <div class="card-header">
+          <h3 class="card-title">Bestseller</h3>
+        </div>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="product-list">
+<ul>
+  {% for list in products %}
+  <li>
+      <a href="{% url 'product_detail' list.id %}">
+        <img src="media/{{list.picture}}" width="200px" height="250px">
+      </a>
+      <br>
+      <span>{{ list.name }}</span>
+      <br>
+      <span>{{ list.price }} KZT</span>
+  </li>
+  {% endfor %}
+</ul>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.profile-pic {
+    width: 320px;
+    height: 420px;
+}
+</style>
+
+<div class="row">
+
+  <div class="col-md-3">
+    <div class="card card-body">
+      <a href="{% url 'main_page' %}" class="btn btn-danger">Back to home</a>
+      <hr>
+      <h3 style="text-align: center"> {{ product_details.name }} </h3>
+      <hr>
+      <img src="/media/{{product_details.picture}}" class="profile-pic">
+        <hr>
+      <h3 style="text-align: center; color: green;  "> {{ product_details.price }} KZT</h3>
+    </div>
+  </div>
+
+  <div class="col-md-9">
+    <div class="card card-body">
+      <p> {{ product_details.description }} </p>
+    </div>
+      
+  </div>
+
+</div>
+{% endblock content %}

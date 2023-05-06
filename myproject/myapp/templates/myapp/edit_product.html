@@ -1,0 +1,63 @@
+{% load static %}
+{% block content %}
+<head>
+<style>
+
+    form{
+    height: 400px;
+    width: 300px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    border: 2px solid #000;
+    padding: 30px 35px;
+}
+
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: black;
+    letter-spacing: 0.5px;
+}
+
+label{
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 35px;
+    width: 100%;
+    border-radius: 3px;
+    padding: 0 5px;
+    margin: 15px 0;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+
+</style>
+</head>
+<body>
+<div class="form-add">
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Title</label>
+        <input type="text" name="title" value="{{ product.title }}">
+        <label>ID</label>
+        <input type="text" name="id" value="{{ product.isbn}}">
+        <label>Price</label>
+        <input type="text" name="price" value="{{ product.price }}">
+        {% if p.image %}
+            <img src="{{ product.image.url }}">
+        {% endif %}
+        <label>Image</label>
+        <input type="file" name="image">
+        <input type="submit">
+    </form>
+    </div>
+</body>
+
+{% endblock content %}
