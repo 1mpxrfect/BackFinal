@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import CreateUserForm, ProductForm, SearchForm
-from .models import Products, Category
+from .models import Products, Category, Comment
 import re
 from django.contrib.auth.models import User
 
@@ -159,10 +159,40 @@ def main_page(request):
 
 # Product detail
 def product_detail(request, pk):
-    product_details = get_object_or_404(Products, pk=pk)
+    product = get_object_or_404(Products, pk=pk)
+    comments = product.product_comment.order_by('-created_at')[:10]
 
-    latest_comments = product_details.comment_set.order_by('-id')[:10]
-    context = {'product_details': product_details, 'latest_comments': latest_comments}
+    if request.method == 'POST':
+        comment_text = request.POST['comment_text']
+        comment_rating = request.POST['comment_rating']
+
+        if not (comment_text and comment_rating):
+            return redirect('product_detail', pk=product.id)
+
+        Comment.objects.create(
+            product=product,
+            author=request.user,
+            comment_text=comment_text,
+            rating=int(comment_rating)
+        ).save()
+        return redirect('product_detail', pk=product.id)
+
+    count_of_reviews = product.product_comment.count()
+
+    rating = 0
+    if count_of_reviews > 0:
+        for p in product.product_comment.all():
+            rating += p.rating
+
+        rating = float(str(round((rating / count_of_reviews), 1)))
+
+    context = {
+        'product': product,
+        'comments': comments,
+        'rating': rating,
+        'count_of_reviews': count_of_reviews
+    }
+
     return render(request, 'myapp/product_detail.html', context)
 
 

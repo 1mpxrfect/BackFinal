@@ -5,7 +5,9 @@
 <ul>
   {% for list in books %}
   <li>
-      <a href="{% url 'product_detail' list.id %}"><img src="media/{{list.picture}}" width="200px" height="250px"></a>
+      <a href="{% url 'product_detail' list.id %}">
+          <img src="{{ list.picture.url }}" width="200px" height="250px" alt="">
+      </a>
       <br>
       <span>{{ list.name }}</span>
       <br>

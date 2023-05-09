@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.contrib import auth
 
@@ -23,9 +24,20 @@ class Products(models.Model):
 
 
 class Comment(models.Model):
-    product =models.ForeignKey(Products, on_delete=models.CASCADE)
-    author =models.ForeignKey(auth.get_user_model(), on_delete=models.CASCADE)
+
+    RATING = (
+        ('Soo bad', 1),
+        ('Badly', 2),
+        ('Not bad', 3),
+        ('Well', 4),
+        ('Soo well', 5),
+    )
+
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product_comment')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_text = models.TextField(help_text='Write here')
+    rating = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 # class Customer(models.Model):
 #     first_name = models.CharField(max_length=50)

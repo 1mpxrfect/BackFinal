@@ -82,3 +82,120 @@ li:hover {
 #five-block {
     background-color: #4cb4c7;
 }
+
+.title_reviews_product_block {
+    padding: 50px 20px 0 20px;
+}
+
+.title_reviews_product_block h1 {
+    font-size: 20px;
+}
+
+.reviews_product_main_block {
+    display: flex;
+    padding: 0 20px 50px 20px;
+}
+
+.reviews_list_product_main_info {
+    width: 50%;
+}
+
+.review_product_block {
+    margin-top: 30px;
+}
+
+.author_review_product_block {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.rating_review_product_block {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.created_date_review_product_block {
+    color: #5c5c5c;
+}
+
+.main_text_review_product_block {
+    border-radius: 5px;
+    background-color: #f5f5f7;
+    color: #000;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 20px;
+}
+
+.reviews_list_product_additional_service {
+    width: calc(50% - 200px);
+    margin: -30px 0 0 100px;
+}
+
+.new_review_product_block {
+    display: none;
+}
+
+.write_review_product_block {
+    display: inline-flex;
+    cursor: pointer;
+    font-size: 18px;
+    color: #FFF;
+    background-color: #0089b2;
+    padding: 10px 50px;
+    border-radius: 6px;
+}
+
+.main_info_core_rating_block {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.main_rating_main_info_core_rating h1 {
+    margin: 0 0 0 10px;
+    padding: 0;
+    font-size: 2.0rem;
+    color: #9ba2ac;
+    font-weight: 600;
+}
+
+.title_new_review_product_block h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0089b2;
+}
+
+.close_new_review_product_block {
+    cursor: pointer;
+    position: absolute;
+    right: 115px;
+}
+
+.rating_new_review_product_block {
+    display: flex;
+    flex-direction: column;
+}
+
+.rating_new_review_product_block label p {
+    font-size: 15px;
+    margin: 20px 0 0 0;
+}
+
+.rating_new_review_product_block label select, textarea {
+    margin-top: 5px;
+    width: 100%;
+}
+
+.new_review_product_block button {
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #FFF;
+    background-color: #0089b2;
+    border: none;
+    padding: 7px 50px;
+    border-radius: 6px;
+}
