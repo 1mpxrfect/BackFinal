@@ -2,102 +2,162 @@
 {% load static %}
 {% block content %}
 
-{% include 'myapp/carousel.html' %}
+    {% include 'myapp/carousel.html' %}
 
-<div class="row">
-  <div class="col">
-    <div class="col-md">
-      <div class="card text-center text-white mb-3" id="first-block">
-          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'games' %}">
-        <div class="card-body">
-          <img src="{% static 'images/gamepng.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white mb-3" id="first-block">
+                        <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'games' %}">
+                            <div class="card-body">
+                                <img src="{% static 'images/gamepng.png' %}" class="img-thumbnail" width="150px"
+                                     style="border-radius: 50%">
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title">Games</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white mb-3" id="second-block">
+                        <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'books' %}">
+
+                            <div class="card-body">
+                                <img src="{% static 'images/books.png' %}" class="img-thumbnail" width="150px"
+                                     style="border-radius: 50%">
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title">Books</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white mb-3" id="third-block">
+                        <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'toys' %}">
+                            <div class="card-body">
+                                <img src="{% static 'images/toys.png' %}" class="img-thumbnail" width="150px"
+                                     style="border-radius: 50%">
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title">Toys</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white mb-3" id="fourth-block">
+                        <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
+                            <div class="card-body">
+                                <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px"
+                                     style="border-radius: 50%">
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title">Sweets</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="col-md">
+                    <div class="card text-center text-white mb-3 color-card" id="five-block">
+                        <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
+                            <div class="card-body">
+                                <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px"
+                                     style="border-radius: 50%">
+                            </div>
+                            <div class="card-header">
+                                <h3 class="card-title">Bestseller</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-header">
-          <h3 class="card-title">Games</h3>
+
+        <div class="row mt-4 mx-auto">
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Filters</h5>
+                            <form method="get" action="{% url 'filtered_catalog' %}">
+                                <form method="get" class="form-inline">
+                                    <label for="manufacturer">Brand:</label>
+                                    <select class="form-control" id="manufacturer" name="manufacturer">
+                                        <option value="">All</option>
+                                        {% for brand in brands %}
+                                            <option value="{{ brand.name }}">{{ brand.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br>
+                                    <label>Price:</label>
+                                    <div class="form-group mb-2">
+                                        <label for="min_price" class="sr-only">Minimum price:</label>
+                                        <input type="number" class="form-control" id="min_price"
+                                               name="min_price" placeholder="Minimum price"
+                                               value="{{ min_price }}">
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <label for="max_price" class="sr-only">Maximum price:</label>
+                                        <input type="number" class="form-control" id="max_price"
+                                               name="max_price" placeholder="Maximum price"
+                                               value="{{ max_price }}">
+                                    </div>
+                                    <br>
+                                    <button type="submit" class="btn btn-outline-success mb-2">Filter</button>
+                                </form>
+                            </form>
+                        </div>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <div class="pt-2">
+                            <div class="card p-3">
+                                <h3>Viewed Books</h3>
+                                <p>
+                                    {% for item_id, item_name in request.session.viewed_items %}
+                                        <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
+                                    {% empty %}
+                                        No recently viewed items found.
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    <ul>
+                        {% for list in products %}
+                            <li class="mx-3 mb-5">
+                                <a href="{% url 'product_detail' list.id %}">
+                                    <img src="{{ list.picture.url }}" width="200px" height="250px">
+                                </a>
+                                <br>
+                                <span>{{ list.price }} KZT</span>
+                                <br>
+                                <span>{{ list.name }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-          </a>
-      </div>
     </div>
-  </div>
-
-  <div class="col">
-    <div class="col-md">
-      <div class="card text-center text-white mb-3" id="second-block">
-          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'books' %}">
-
-        <div class="card-body">
-          <img src="{% static 'images/books.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
-        </div>
-        <div class="card-header">
-          <h3 class="card-title">Books</h3>
-        </div>
-          </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="col-md">
-      <div class="card text-center text-white mb-3" id="third-block">
-          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'toys' %}">
-        <div class="card-body">
-          <img src="{% static 'images/toys.png' %}" class="img-thumbnail" width="150px"  style="border-radius: 50%">
-        </div>
-        <div class="card-header">
-          <h3 class="card-title">Toys</h3>
-        </div>
-          </a>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="col">
-    <div class="col-md">
-      <div class="card text-center text-white mb-3" id="fourth-block">
-          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
-        <div class="card-body">
-          <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
-        </div>
-        <div class="card-header">
-          <h3 class="card-title">Sweets</h3>
-        </div>
-          </a>
-      </div>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="col-md">
-      <div class="card text-center text-white mb-3 color-card" id="five-block">
-          <a style="text-decoration: none; color: #FFFFFF;" href="{% url 'sweets' %}">
-        <div class="card-body">
-          <img src="{% static 'images/sweets.png' %}" class="img-thumbnail" width="150px" style="border-radius: 50%">
-        </div>
-        <div class="card-header">
-          <h3 class="card-title">Bestseller</h3>
-        </div>
-          </a>
-      </div>
-    </div>
-  </div>
-
-</div>
-<div class="product-list">
-<ul>
-  {% for list in products %}
-  <li>
-      <a href="{% url 'product_detail' list.id %}">
-        <img src="{{ list.picture.url }}" width="200px" height="250px">
-      </a>
-      <br>
-      <span>{{ list.name }}</span>
-      <br>
-      <span>{{ list.price }} KZT</span>
-  </li>
-  {% endfor %}
-</ul>
-</div>
-
-
-{% endblock content %}
+{% endblock %}
