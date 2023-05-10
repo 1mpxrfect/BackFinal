@@ -276,6 +276,29 @@ def filter_search(request):
     }
     return render(request, "myapp/product_list.html", context)
 
+def filtered_catalog(request):
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    brand_filter = request.GET.get('brand')
+
+    products = Products.objects.all()
+
+    if min_price:
+        products = Products.objects.filter(price__gte=min_price)
+    if max_price:
+        products = Products.objects.filter(price__lte=max_price)
+    if min_price and max_price:
+        products = products.filter(price__range=(min_price, max_price))
+    if brand_filter:
+        products = products.filter(manufacturer__name__iexact=brand_filter)
+
+    context = {
+        'products': products,
+        'min_price': min_price,
+        'max_price': max_price,
+    }
+    return render(request, "myapp/main_page.html", context)
+
 
 def books(request):
     books = Products.objects.filter(category__name='Books')
