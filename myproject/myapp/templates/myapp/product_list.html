@@ -3,19 +3,20 @@
 {% block content %}
 <div class="product-list">
 <ul>
-  {% for list in books %}
+  {% for product in product_list %}
   <li>
-      <a href="{% url 'product_detail' list.id %}">
-          <img src="{{ list.picture.url }}" width="200px" height="250px" alt="">
+      <a href="{% url 'product_detail' product.id %}">
+          <img src="{{ product.picture.url }}" width="200px" height="250px" alt="">
       </a>
       <br>
-      <span>{{ list.name }}</span>
+      <span>{{ product.name }}</span>
       <br>
-      <span>{{ list.category }}</span>
+      <span>{{ product.category }}</span>
       <br>
-      <span>{{ list.price }}</span>
+      <span>{{ product.price }}</span>
   </li>
   {% endfor %}
 </ul>
 </div>
 {% endblock %}
+

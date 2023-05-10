@@ -27,6 +27,7 @@ urlpatterns = [
     path('site_admin/edit_user/<str:username>', views.edit_user, name='edit_user'),
     path('site_admin/delete_user/<str:username>', views.delete_user, name='delete_user'),
 
-    path('search_result', views.product_search, name='search_result'),
+    path('product-search/', views.product_search, name='product_search'),
+    path('filter_search/', views.filter_search, name='filter_search')
 ]
 

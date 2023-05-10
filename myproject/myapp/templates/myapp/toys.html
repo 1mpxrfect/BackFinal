@@ -5,7 +5,7 @@
 <ul>
   {% for list in toys %}
   <li>
-      <a href="{% url 'product_detail' list.id %}"><img src="media/{{list.picture}}" width="200px" height="250px"></a>
+      <a href="{% url 'product_detail' list.id %}"><img src="/media/{{list.picture}}" width="200px" height="250px"></a>
       <br>
       <span>{{ list.name }}</span>
       <br>

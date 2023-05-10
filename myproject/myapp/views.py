@@ -261,8 +261,20 @@ def product_search(request):
         initial = dict(search=search_text)
         form = SearchForm(initial=initial)
 
-    context = {"form": form, "search_text": search_text, "products": products}
-    return render(request, "myapp/search_result.html", context)
+    return render(request, "myapp/search-results.html", {"form": form, "search_text": search_text, "products": products})
+
+def filter_search(request):
+    products = Products.objects.all()
+    price_filter = request.GET.get('price_filter', None)
+    if price_filter:
+        price_range = price_filter.split('-')
+        if len(price_range) == 2:
+            products = products.filter(price__gte=int(price_range[0]), price__lte=int(price_range[1]))  # Convert price values to integers
+
+    context = {
+        "product_list": products
+    }
+    return render(request, "myapp/product_list.html", context)
 
 
 def books(request):

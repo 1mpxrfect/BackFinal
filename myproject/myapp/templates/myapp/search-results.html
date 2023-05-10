@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-
+{% block title %}
+    {% if form.is_valid and search_text %}
+        Результаты поиска по запросу "{{ search_text }}"
+    {% else %}
+        Book Search
+    {% endif %}
+{% endblock %}
 {% block content %}
 <div>
 {% if form.is_valid and search_text %}
@@ -8,7 +14,7 @@
     <ul class="list-group">
     {% for product in products %}
     <li class="list-group-item">
-        <a href="{% url 'product_detail' product.pk %}"><img src="/media/{{product.image}}" width="220" height="240"/></a>
+        <a href="{% url 'product_detail' product.pk %}"><img src="{{ product.picture.url }}" width="220" height="240"/></a>
         <a href="{% url 'product_detail' product.pk %}">{{ product }}</a>
         <br/>
     </li>
