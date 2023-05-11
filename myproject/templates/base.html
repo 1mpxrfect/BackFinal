@@ -36,19 +36,9 @@
                     <div class="nav-item">
                         <div class="d-flex">
                             <form action="{% url 'product_search' %}" class="form-inline my-2 my-lg-0 mr-2">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Поиск"
+                                <input class="form-control p-3 mr-sm-2" type="search" placeholder="Поиск"
                                        aria-label="Search" name="search" value="{{ search_text }}" minlength="3">
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-                            </form>
-                            <form action="{% url 'filter_search' %}" method="GET" class="form-inline">
-                                <select name="price_filter" id="price_filter" class="form-control mr-sm-2">
-                                    <option value="">Все</option>
-                                    <option value="0-5000">до 5000тг</option>
-                                    <option value="5000-10000">5000-10000тг</option>
-                                    <option value="10000-20000">10000-20000тг</option>
-                                    <option value="20000-50000">от 20000тг</option>
-                                </select>
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Фильтровать</button>
                             </form>
                         </div>
                     </div>
