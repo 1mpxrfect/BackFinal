@@ -89,7 +89,6 @@ def edit_profile(request):
 # Site Admin
 @login_required(login_url='sign_in')
 def site_admin(request):
-
     products = Products.objects.all()
     total_products = products.count()
 
@@ -106,7 +105,6 @@ def site_admin(request):
 
 # Create Product
 def create_product(request):
-
     form = ProductForm()
 
     if request.method == 'POST':
@@ -121,7 +119,6 @@ def create_product(request):
 
 # Update Product
 def update_product(request, pk):
-
     product = Products.objects.get(id=pk)
 
     if request.method == 'POST':
@@ -139,7 +136,6 @@ def update_product(request, pk):
 
 # Delete Product
 def delete_product(request, pk):
-
     product = Products.objects.get(id=pk)
 
     if request.method == 'POST':
@@ -153,7 +149,8 @@ def delete_product(request, pk):
 # Main Page
 def main_page(request):
     products = Products.objects.all()
-    context = {'products': products}
+    categories = Category.objects.all()
+    context = {'products': products, 'categories': categories}
     return render(request, 'myapp/main_page.html', context)
 
 
@@ -261,7 +258,9 @@ def product_search(request):
         initial = dict(search=search_text)
         form = SearchForm(initial=initial)
 
-    return render(request, "myapp/search-results.html", {"form": form, "search_text": search_text, "products": products})
+    return render(request, "myapp/search-results.html",
+                  {"form": form, "search_text": search_text, "products": products})
+
 
 def filter_search(request):
     products = Products.objects.all()
@@ -269,17 +268,20 @@ def filter_search(request):
     if price_filter:
         price_range = price_filter.split('-')
         if len(price_range) == 2:
-            products = products.filter(price__gte=int(price_range[0]), price__lte=int(price_range[1]))  # Convert price values to integers
+            products = products.filter(price__gte=int(price_range[0]),
+                                       price__lte=int(price_range[1]))  # Convert price values to integers
 
     context = {
         "product_list": products
     }
     return render(request, "myapp/product_list.html", context)
 
+
 def filtered_catalog(request):
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-    brand_filter = request.GET.get('brand')
+    category_filter = request.GET.get('category')
+    categories = Category.objects.all()
 
     products = Products.objects.all()
 
@@ -289,13 +291,14 @@ def filtered_catalog(request):
         products = Products.objects.filter(price__lte=max_price)
     if min_price and max_price:
         products = products.filter(price__range=(min_price, max_price))
-    if brand_filter:
-        products = products.filter(manufacturer__name__iexact=brand_filter)
+    if category_filter:
+        products = products.filter(category__name=category_filter)
 
     context = {
         'products': products,
         'min_price': min_price,
         'max_price': max_price,
+        'categories': categories
     }
     return render(request, "myapp/main_page.html", context)
 
@@ -318,4 +321,3 @@ def toys(request):
 def sweets(request):
     sweets = Products.objects.filter(category__name='Sweets')
     return render(request, 'myapp/sweets.html', {'sweets': sweets})
-

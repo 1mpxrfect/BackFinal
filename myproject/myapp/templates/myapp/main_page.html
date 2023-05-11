@@ -97,11 +97,11 @@
                             <h5 class="card-title">Filters</h5>
                             <form method="get" action="{% url 'filtered_catalog' %}">
                                 <form method="get" class="form-inline">
-                                    <label for="manufacturer">Brand:</label>
-                                    <select class="form-control" id="manufacturer" name="manufacturer">
+                                    <label for="category">Category:</label>
+                                    <select class="form-control" id="category" name="category">
                                         <option value="">All</option>
-                                        {% for brand in brands %}
-                                            <option value="{{ brand.name }}">{{ brand.name }}</option>
+                                        {% for category in categories %}
+                                            <option name="category">{{ category.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <br>
@@ -154,6 +154,8 @@
                                 <br>
                                 <span>{{ list.name }}</span>
                             </li>
+                        {% empty %}
+                            <h3 class="text-center">No products found by your filter</h3>
                         {% endfor %}
                     </ul>
                 </div>
