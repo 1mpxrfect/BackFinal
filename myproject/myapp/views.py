@@ -159,6 +159,16 @@ def product_detail(request, pk):
     product = get_object_or_404(Products, pk=pk)
     comments = product.product_comment.order_by('-created_at')[:10]
 
+    if request.user.is_authenticated:
+        max_viewed_items_length = 10
+        viewed_items = request.session.get('viewed_items', [])
+        viewed_item = [product.id, product.name]
+        if viewed_item in viewed_items:
+            viewed_items.pop(viewed_items.index(viewed_item))
+        viewed_items.insert(0, viewed_item)
+        viewed_items = viewed_items[:max_viewed_items_length]
+        request.session['viewed_items'] = viewed_items
+
     if request.method == 'POST':
         comment_text = request.POST['comment_text']
         comment_rating = request.POST['comment_rating']
@@ -258,7 +268,7 @@ def product_search(request):
         initial = dict(search=search_text)
         form = SearchForm(initial=initial)
 
-    return render(request, "myapp/search-results.html",
+    return render(request, "myapp/main_page.html",
                   {"form": form, "search_text": search_text, "products": products})
 
 
