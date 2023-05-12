@@ -4,6 +4,26 @@
 
     {% include 'myapp/carousel.html' %}
 
+    {% if user.is_authenticated %}
+                        <div class="pt-2">
+                            <div class="card p-3">
+                                <h3>Просмотренные товары</h3>
+                                <p>
+                                    <ul class="list-group list-group-horizontal">
+                                        {% for item_id, item_name in request.session.viewed_items %}
+                                        <li class="list-group-item">
+                                            <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
+                                            <img src="" width="200px" height="250px">
+                                            {% empty %}
+                                            Нет недавних товаров.
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -94,50 +114,36 @@
                 <div class="d-flex flex-column">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Filters</h5>
+                            <h5 class="card-title">Фильтры:</h5>
                             <form method="get" action="{% url 'filtered_catalog' %}">
                                 <form method="get" class="form-inline">
-                                    <label for="category">Category:</label>
+                                    <label for="category">Категория:</label>
                                     <select class="form-control" id="category" name="category">
-                                        <option value="">All</option>
+                                        <option value="">Все</option>
                                         {% for category in categories %}
                                             <option name="category">{{ category.name }}</option>
                                         {% endfor %}
                                     </select>
                                     <br>
-                                    <label>Price:</label>
+                                    <label>Цена:</label>
                                     <div class="form-group mb-2">
-                                        <label for="min_price" class="sr-only">Minimum price:</label>
+                                        <label for="min_price" class="sr-only">Минимальная цена:</label>
                                         <input type="number" class="form-control" id="min_price"
-                                               name="min_price" placeholder="Minimum price"
+                                               name="min_price" placeholder="Минимальная цена"
                                                value="{{ min_price }}">
                                     </div>
                                     <div class="form-group mb-2">
-                                        <label for="max_price" class="sr-only">Maximum price:</label>
+                                        <label for="max_price" class="sr-only">Максимальная цена:</label>
                                         <input type="number" class="form-control" id="max_price"
-                                               name="max_price" placeholder="Maximum price"
+                                               name="max_price" placeholder="Mаксимальная цена"
                                                value="{{ max_price }}">
                                     </div>
                                     <br>
-                                    <button type="submit" class="btn btn-outline-success mb-2">Filter</button>
+                                    <button type="submit" class="btn btn-outline-success mb-2">Фильтровать</button>
                                 </form>
                             </form>
                         </div>
                     </div>
-                    {% if request.user.is_authenticated %}
-                        <div class="pt-2">
-                            <div class="card p-3">
-                                <h3>Viewed Books</h3>
-                                <p>
-                                    {% for item_id, item_name in request.session.viewed_items %}
-                                        <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
-                                    {% empty %}
-                                        No recently viewed items found.
-                                    {% endfor %}
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
 
@@ -155,7 +161,7 @@
                                 <span>{{ list.name }}</span>
                             </li>
                         {% empty %}
-                            <h3 class="text-center">No products found by your filter</h3>
+                            <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
                         {% endfor %}
                     </ul>
                 </div>

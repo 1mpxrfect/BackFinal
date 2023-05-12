@@ -160,7 +160,7 @@ def product_detail(request, pk):
     comments = product.product_comment.order_by('-created_at')[:10]
 
     if request.user.is_authenticated:
-        max_viewed_items_length = 10
+        max_viewed_items_length = 5
         viewed_items = request.session.get('viewed_items', [])
         viewed_item = [product.id, product.name]
         if viewed_item in viewed_items:
@@ -270,21 +270,6 @@ def product_search(request):
 
     return render(request, "myapp/main_page.html",
                   {"form": form, "search_text": search_text, "products": products})
-
-
-def filter_search(request):
-    products = Products.objects.all()
-    price_filter = request.GET.get('price_filter', None)
-    if price_filter:
-        price_range = price_filter.split('-')
-        if len(price_range) == 2:
-            products = products.filter(price__gte=int(price_range[0]),
-                                       price__lte=int(price_range[1]))  # Convert price values to integers
-
-    context = {
-        "product_list": products
-    }
-    return render(request, "myapp/product_list.html", context)
 
 
 def filtered_catalog(request):
