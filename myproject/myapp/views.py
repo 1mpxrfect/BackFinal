@@ -1,9 +1,12 @@
+from django.dispatch import receiver
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.signals import user_logged_in
+from django.utils import timezone
 from django.contrib import messages
 
-from .forms import CreateUserForm, ProductForm, SearchForm
+from .forms import CreateUserForm, ProductForm, SearchForm, UserEditForm
 from .models import Products, Category, Comment
 import re
 from django.contrib.auth.models import User
@@ -71,19 +74,14 @@ def log_out(request):
 @login_required
 def edit_profile(request):
     user = request.user
-
     if request.method == 'POST':
-        user.uname = request.POST.get('username')
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
-        password = request.POST.get('password1')
-        user.set_password(password)
-        user.save()
-        return redirect('/')
-
-    context = {'user': user}
-    return render(request, 'myapp/user.html', context)
+        form = UserEditForm(request.POST, instance=user)
+        if form.is_valid():
+            user.save()
+            return redirect('profile')
+    else:
+        form = UserEditForm(instance=user)
+    return render(request, 'myapp/edit_profile.html', {'form': form, 'user': user})
 
 
 # Site Admin
@@ -209,7 +207,13 @@ def product_detail(request, pk):
 
 
 def profile(request):
-    return render(request, 'myapp/profile.html')
+    # user_pk = request.user.id
+    # user = get_object_or_404(User, pk=user_pk)
+    user = request.user
+    context = {
+        'user': user,
+    }
+    return render(request, 'myapp/profile.html', context)
 
 
 def create_user(request):

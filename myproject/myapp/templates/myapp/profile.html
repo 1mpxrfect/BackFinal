@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<p>
-    Username: {{ request.user.username }} <br>
-    Name: {{ request.user.first_name }} {{ request.user.last_name }} <br>
-    Date Joined: {{ request.user.date_joined }} <br>
-    Email: {{ request.user.email }} <br>
-    Last Login: {{ request.user.last_login }} <br>
-    <a class="btn btn-primary btn-info " href="{% url 'edit_profile' %}">Edit</a>
-    <a class="btn btn-primary btn-danger " href="{% url 'logout' %}">Logout</a>
-    </p>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4">
+            <div class="card card-body">
+                <h3 style="text-align: center">Hello, {{ user.username }} </h3>
+                <hr>
+                <div class="icon d-flex justify-content-center">
+                    <img src="{% static 'images/icon_user.jpg' %}" width="350px" alt="User Icon">
+                </div>
+                <hr>
+                <a class="btn btn-primary btn-lg btn-danger" href="{% url 'logout' %}">Logout</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-body d-grid gap-2 d-md-block">
+                First Name: {{ user.first_name }} <br>
+                <hr>
+                Last Name: {{ user.last_name }} <br>
+                <hr>
+                Email: {{ user.email }}
+                <hr>
+                <div class="d-flex">
+                    {% if request.user.is_staff %}
+                        <a class="btn btn-info mr-5" href="{% url 'site_admin' %}">Admin Site</a>
+                    {% endif %}
+                    <a class="btn btn-success" href="{% url 'edit_profile' %}">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

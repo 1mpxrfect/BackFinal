@@ -69,11 +69,11 @@
                 </li>
             </ul>
 
-            {% if user.is_staff %}
-                <div class="nav-item">
-                    <a class="btn btn-sm btn-success" href="{% url 'site_admin' %}">{{ user.username }}</a>
-                </div>
-            {% elif user.is_authenticated %}
+{#            {% if user.is_staff %}#}
+{#                <div class="nav-item">#}
+{#                    <a class="btn btn-sm btn-success" href="{% url 'site_admin' %}">{{ user.username }}</a>#}
+{#                </div>#}
+            {% if user.is_authenticated %}
                 <div class="nav-item">
                     <a class="btn btn-sm btn-info" href="{% url 'profile' %}">{{ user.username }}</a>
                 </div>
