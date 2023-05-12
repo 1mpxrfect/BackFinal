@@ -18,7 +18,7 @@ urlpatterns = [
     path('logout/', views.log_out, name='logout'),
 
     path('site_admin/create_product', views.create_product, name='create_product'),
-    path('site_admin/edit_product/<str:pk>/', views.update_product, name='edit_product'),
+    path('site_admin/edit_product/<str:pk>/', views.edit_product, name='edit_product'),
     path('site_admin/delete_product/<str:pk>/', views.delete_product, name='delete_product'),
 
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),

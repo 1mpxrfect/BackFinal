@@ -118,20 +118,25 @@ def create_product(request):
 
 
 # Update Product
-def update_product(request, pk):
-    product = Products.objects.get(id=pk)
-
+def edit_product(request, pk):
+    product = Products.objects.get(pk=pk)
     if request.method == 'POST':
-        if len(request.FILES) != 0:
-            product.image = request.FILES['picture']
-        product.name = request.POST.get('name')
-        product.price = request.POST.get('price')
-        product.description = request.POST.get('description')
-        product.save()
-        return redirect('admin')
-
-    context = {'f': product}
-    return render(request, 'myapp/edit_product.html', context)
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            exist_product = form.save(commit=False)
+            exist_product.image = form.cleaned_data['picture']
+            exist_product.save()
+            form.save_m2m()
+            return redirect('site_admin')
+    else:
+        form = ProductForm(instance=product, initial={
+            'name': product.name,
+            'category': product.category,
+            'description': product.description,
+            'price': product.price,
+            'picture': product.picture,
+        })
+    return render(request, 'myapp/edit_product.html', {'form': form, 'product': product})
 
 
 # Delete Product
