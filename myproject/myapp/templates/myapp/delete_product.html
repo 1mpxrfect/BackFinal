@@ -1,16 +1,16 @@
-{% extends 'base.html' %}
+{% extends 'myapp/site_admin.html' %}
 
 {% load static %}
 
 {% block content %}
+    <div class=" p-5">
+        <p>Do you want to delete <b>"{{ product }}"?</b></p>
 
-<p>Do you want to delete <b>"{{ product }}"?</b></p>
-
-<form action="{% url 'delete_product' product.id %}" method="POST">
-    {% csrf_token %}
-    <a class="btn btn-sm btn-danger" href="{% url 'site_admin' %}">Cancel</a>
-    <input class="btn btn-sm btn-info" type="submit" name="Confirm">
-</form>
-
+        <form action="{% url 'delete_product' product.id %}" method="POST">
+            {% csrf_token %}
+            <a class="btn btn-sm btn-danger" href="{% url 'site_admin' %}">Cancel</a>
+            <input class="btn btn-sm btn-info" type="submit" value="Confirm" name="Confirm">
+        </form>
+    </div>
 {% endblock content %}
 

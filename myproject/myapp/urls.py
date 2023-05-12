@@ -15,10 +15,10 @@ urlpatterns = [
 
     path('sign_in/', views.sign_in, name='sign_in'),
     path('sign_up/', views.sign_up, name='sign_up'),
-    path('logout', views.log_out, name='logout'),
+    path('logout/', views.log_out, name='logout'),
 
     path('site_admin/create_product', views.create_product, name='create_product'),
-    path('site_admin/edit_product/<str:pk>/', views.update_product, name='edit_product'),
+    path('site_admin/edit_product/<str:pk>/', views.edit_product, name='edit_product'),
     path('site_admin/delete_product/<str:pk>/', views.delete_product, name='delete_product'),
 
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),
