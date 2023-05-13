@@ -103,16 +103,17 @@ def site_admin(request):
 
 # Create Product
 def create_product(request):
-    form = ProductForm()
-
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('site_admin')
-
-    context = {'f': form}
-    return render(request, 'myapp/create_product.html', context)
+        # if form.is_valid():
+        product = form.save(commit=False)
+        product.picture = form.cleaned_data['picture']
+        product.save()
+        form.save_m2m()
+        return redirect('/site_admin')
+    else:
+        form = ProductForm()
+    return render(request, 'myapp/create_product.html', {'form': form})
 
 
 # Update Product
@@ -218,33 +219,28 @@ def profile(request):
 
 def create_user(request):
     if request.method == 'POST':
-        uname = request.POST.get('username')
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        email = request.POST.get('email')
-        pass1 = request.POST.get('password1')
-        pass2 = request.POST.get('password2')
-        user = User.objects.create_user(uname, email, pass1)
-        user.save()
-        return redirect('site_admin')
-
-    return render(request, 'myapp/user.html')
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.save()
+            return redirect('/site_admin')
+    else:
+        form = CreateUserForm()
+    return render(request, 'myapp/user.html', {'form': form})
 
 
-def edit_user(request, username):
-    user = get_object_or_404(User, username=username)
+def edit_user(request, pk):
+    all_users = User.objects.all()
+    check_user = User.objects.get(pk=pk)
     if request.method == 'POST':
-        user.uname = request.POST.get('username')
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
-        user.set_password(request.POST.get('password1'))
-        # user.is_staff = bool(request.POST.get('is_staff'))
-        user.save()
-        return redirect('site_admin')
-
-    context = {'user': user}
-    return render(request, 'myapp/user.html', context)
+        form = UserEditForm(request.POST, instance=check_user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+        return redirect('/site_admin/user_list/')
+    else:
+        form = UserEditForm(instance=check_user)
+    return render(request, 'myapp/edit_user.html', {'form': form, 'check_user': check_user, 'all_users': all_users})
 
 
 def delete_user(request, username):

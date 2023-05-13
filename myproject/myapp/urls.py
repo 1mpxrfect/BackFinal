@@ -22,9 +22,9 @@ urlpatterns = [
     path('site_admin/delete_product/<str:pk>/', views.delete_product, name='delete_product'),
 
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),
-    path('site_admin/user_list', views.user_list, name='user_list'),
+    path('site_admin/user_list/', views.user_list, name='user_list'),
     path('site_admin/create_user', views.create_user, name='create_user'),
-    path('site_admin/edit_user/<str:username>', views.edit_user, name='edit_user'),
+    path('site_admin/edit_user/<int:pk>', views.edit_user, name='edit_user'),
     path('site_admin/delete_user/<str:username>', views.delete_user, name='delete_user'),
 
     path('product-search/', views.product_search, name='product_search'),

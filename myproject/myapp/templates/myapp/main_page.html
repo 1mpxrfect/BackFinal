@@ -138,7 +138,7 @@
                                 <br>
                                 <span>{{ list.price }} KZT</span>
                                 <br>
-                                <span>{{ list.name }}</span>
+                                <span id="productName">{{ list.name }}</span>
                             </li>
                         {% empty %}
                             <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
@@ -146,27 +146,40 @@
                     </ul>
                 </div>
             </div>
-                {% if user.is_authenticated %}
-                        <div class="pt-2">
-                            <div class="card p-3">
-                                <h3>Просмотренные товары</h3>
-                                <p>
-                                    <ul class="list-group list-group-horizontal">
-                                        {% for item_id, item_name in request.session.viewed_items %}
-                                        <li class="list-group-item">
-                                            <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
-                                            <img src="" width="200px" height="250px">
-                                            {% empty %}
-                                            Нет недавних товаров.
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
-
+            {% if user.is_authenticated %}
+                <div class="pt-2">
+                    <div class="card p-3">
+                        <h3>Просмотренные товары</h3>
+                        <p>
+                        <ul class="list-group list-group-horizontal">
+                            {% for item_id, item_name in request.session.viewed_items %}
+                                <li class="list-group-item">
+                                    <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
+                                    <img src="" width="200px" height="250px">
+                                    {% empty %}
+                                    Нет недавних товаров.
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
-
     </div>
+    <script>
+        function truncateText() {
+            var productName = document.getElementById('productName');
+            var maxLength = 26; // Specify the maximum length here
+
+            if (productName.value.length > maxLength) {
+                productName.classList.add('truncate');
+            } else {
+                productName.classList.remove('truncate');
+            }
+        }
+
+        var productNameInput = document.getElementById('productName');
+        productNameInput.addEventListener('input', truncateText);
+    </script>
 {% endblock %}

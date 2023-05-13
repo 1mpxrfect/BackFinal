@@ -1,52 +1,84 @@
+{#{% block content %}#}
+{#<head>#}
+{#<style>#}
+{#    form{#}
+{#    height: 550px;#}
+{#    width: 300px;#}
+{#    position: absolute;#}
+{#    transform: translate(-50%,-50%);#}
+{#    top: 50%;#}
+{#    left: 50%;#}
+{#		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);#}
+{#		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);#}
+{#		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);#}
+{#		border-radius: 15px;#}
+{#    padding: 30px 35px;#}
+{#}#}
+{##}
+{#form *{#}
+{#    font-family: 'Poppins',sans-serif;#}
+{#    color: black;#}
+{#    letter-spacing: 0.5px;#}
+{#}#}
+{##}
+{#label{#}
+{#    display: block;#}
+{#    font-size: 16px;#}
+{#    font-weight: 500;#}
+{#}#}
+{#input{#}
+{#    display: block;#}
+{#    height: 35px;#}
+{#    width: 100%;#}
+{#    border-radius: 5px;#}
+{#    padding: 0 5px;#}
+{#    margin: 15px 0;#}
+{#    font-size: 14px;#}
+{#    font-weight: 300;#}
+{#}#}
+{#</style>#}
+{#</head>#}
+{#<div class="box">#}
+{#<div class="form-add">#}
+{#<form action="" method="POST" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        {{ f }}#}
+{#        <input style="background: #D0312D;" type="submit" name="submit">#}
+{#    </form>#}
+{#    </div>#}
+{#    </div>#}
+{##}
+{##}
+{#{% endblock content %}#}
+{% extends "myapp/main_page.html" %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-<head>
-<style>
-    form{
-    height: 550px;
-    width: 300px;
-    position: absolute;
-    transform: translate(-50%,-50%);
-    top: 50%;
-    left: 50%;
-		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-		border-radius: 15px;
-    padding: 30px 35px;
-}
-
-form *{
-    font-family: 'Poppins',sans-serif;
-    color: black;
-    letter-spacing: 0.5px;
-}
-
-label{
-    display: block;
-    font-size: 16px;
-    font-weight: 500;
-}
-input{
-    display: block;
-    height: 35px;
-    width: 100%;
-    border-radius: 5px;
-    padding: 0 5px;
-    margin: 15px 0;
-    font-size: 14px;
-    font-weight: 300;
-}
-</style>
-</head>
-<div class="box">
-<div class="form-add">
-<form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ f }}
-        <input style="background: #D0312D;" type="submit" name="submit">
-    </form>
+    <div class="container mt-3 text-center w-50">
+        <h2>Add Product</h2>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.name|as_crispy_field }}
+            {{ form.description|as_crispy_field }}
+            <div class="form-row">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.price|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.category|as_crispy_field }}
+                </div>
+            </div>
+            {{ form.picture|as_crispy_field }}
+            {% if form.instance.picture %}
+                <img src="{{ form.instance.picture.url }}" alt="Product Picture">
+            {% endif %}
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{% url "site_admin" %}" class="btn btn-danger mr-5">Cancel</a>
+                <button class="btn btn-success" type="submit">Add Products</button>
+            </div>
+        </form>
     </div>
-    </div>
+{% endblock %}
 
-
-{% endblock content %}

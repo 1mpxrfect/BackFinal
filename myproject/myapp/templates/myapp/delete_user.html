@@ -4,34 +4,27 @@
 
 {% block content %}
 
-<style>
-    .container {
-        width: 100vw;
-        height: 35vw;
-        display: flex;
-        justify-content: center;
-    }
-    .box {
-    height: 45%;
-    margin: 30px;
-    padding: 30px 35px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	}
-</style>
-<div class="container">
-    <div class="box">
-<p>Do you want to delete <b>"{{ user.username }}"?</b></p>
-        First Name: {{ user.first_name }} <br>
-        Last Name: {{ user.last_name }} <br>
-        Email: {{ user.email }} <br>
-        <hr>
-<form action="{% url 'delete_user' user.username %}" method="POST">
-    {% csrf_token %}
-    <a class="btn btn-sm btn-danger" href="{% url 'user_list' %}">Cancel</a>
-    <input class="btn btn-sm btn-info" type="submit" name="Confirm">
-</form>
+    <style>
+    </style>
+    <div class="container w-25 mt-4 p-5">
+        <div class="box text-center p-4"
+             style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+            <p>Do you want to delete <br>
+                {% if user.is_staff %}
+                    Staff <b>"{{ user.username }}"?</b></p>
+                {% endif %}
+            {% if not user.is_staff %}
+                User <b>"{{ user.username }}"?</b></p>
+            {% endif %}
+            First Name: {{ user.first_name }} <br>
+            Last Name: {{ user.last_name }} <br>
+            Email: {{ user.email }} <br>
+            <hr>
+            <form action="{% url 'delete_user' user %}" method="POST">
+                {% csrf_token %}
+                <a class="btn btn-sm btn-danger" href="{% url 'user_list' %}">Cancel</a>
+                <input class="btn btn-sm btn-info" type="submit" value="Confirm" name="Confirm">
+            </form>
         </div>
     </div>
 

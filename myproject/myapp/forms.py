@@ -11,6 +11,12 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email address is already in use!!!")
+        return email
+
 
 class UserEditForm(forms.ModelForm):
     class Meta:
@@ -18,10 +24,10 @@ class UserEditForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class ProductForm(ModelForm):
+class ProductForm(forms.ModelForm):
     class Meta:
         model = Products
-        fields = '__all__'
+        fields = ['name', 'description', 'price', 'category', 'picture']
 
 
 class ProductMediaForm(forms.ModelForm):

@@ -26,7 +26,10 @@
             {% endif %}
             {{ form.picture }}
             <br><br>
-            <button type="submit" class="btn btn-outline-success">Save Changes</button>
+            <div class="d-flex justify-content-center">
+            <a href="{% url "site_admin" %}" class="btn btn-danger mr-5">Cancel</a>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            </div>
         </form>
     </div>
 

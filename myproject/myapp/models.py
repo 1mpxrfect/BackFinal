@@ -12,11 +12,11 @@ class Category(models.Model):
 
 class Products(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=26)
     price = models.IntegerField(null=True)
     date_created = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(help_text='Description for this product', null=True)
-    picture = models.ImageField(upload_to='media')
+    picture = models.ImageField(upload_to='media', blank=True)
     id = models.AutoField(primary_key=True)
 
     def __str__(self):
