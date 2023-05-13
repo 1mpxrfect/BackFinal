@@ -251,7 +251,7 @@ def delete_user(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
         user.delete()
-        return redirect('site_admin')
+        return redirect('/site_admin/user_list')
     context = {'user': user}
     return render(request, 'myapp/delete_user.html', context)
 
