@@ -13,6 +13,10 @@ urlpatterns = [
     path('site_admin/', views.site_admin, name='site_admin'),
     path('profile/', views.profile, name='profile'),
 
+    path('basket', views.MyBasket, name='basket'),
+    path('add-to-basket/<int:pk>', views.addToBasket, name='add-to-basket'),
+    path('remove-item/<int:item_id>/', views.remove_item, name='remove_item'),
+
     path('sign_in/', views.sign_in, name='sign_in'),
     path('sign_up/', views.sign_up, name='sign_up'),
     path('logout/', views.log_out, name='logout'),

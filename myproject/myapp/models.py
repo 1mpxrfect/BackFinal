@@ -24,7 +24,6 @@ class Products(models.Model):
 
 
 class Comment(models.Model):
-
     RATING = (
         ('Soo bad', 1),
         ('Badly', 2),
@@ -38,6 +37,54 @@ class Comment(models.Model):
     comment_text = models.TextField(help_text='Write here')
     rating = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Products, through='BasketItem')
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def get_total_price(self):
+        return sum(item.get_price() for item in self.basketitem_set.all())
+
+
+class BasketItem(models.Model):
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    def get_price(self):
+        return self.product.price * self.quantity
+
+    def save(self, *args, **kwargs):
+        self.total_price = self.get_price()
+        super().save(*args, **kwargs)
+
+
+class Delivery(models.Model):
+    PAYMENT_METHOD = (
+        ('Online Payment', 'Online Payment'),
+        ('Cash on Delivery', 'Cash on Delivery'),
+        ('POS on Delivery', 'POS on Delivery')
+    )
+
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    mobile_phone = models.CharField(max_length=255)
+    email = models.EmailField()
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    post_code = models.CharField(max_length=255)
+    payment_method = models.CharField(max_length=255, choices=PAYMENT_METHOD)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def get_total_price(self):
+        return self.basket.get_total_price()
+
+    def __str__(self):
+        return self.name
 
 # class Customer(models.Model):
 #     first_name = models.CharField(max_length=50)

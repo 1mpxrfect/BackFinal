@@ -1,13 +1,15 @@
 from django.dispatch import receiver
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
 from django.utils import timezone
 from django.contrib import messages
+from django.urls import reverse
 
 from .forms import CreateUserForm, ProductForm, SearchForm, UserEditForm
-from .models import Products, Category, Comment
+from .models import Products, Category, Comment, Basket, BasketItem, Delivery
 import re
 from django.contrib.auth.models import User
 
@@ -197,14 +199,111 @@ def product_detail(request, pk):
 
         rating = float(str(round((rating / count_of_reviews), 1)))
 
+    in_basket = False
+    basket_qs = Basket.objects.filter(user=request.user)
+    if basket_qs.exists():
+        basket = basket_qs[0]
+        basket_item = BasketItem.objects.filter(basket=basket, product=product)
+        if basket_item.exists():
+            in_basket = True
+
+    count_of_products = BasketItem.objects.filter(basket=basket_qs.first()).count()
+
     context = {
         'product': product,
         'comments': comments,
         'rating': rating,
-        'count_of_reviews': count_of_reviews
+        'count_of_reviews': count_of_reviews,
+        'in_basket': in_basket,
+        'count_of_products': count_of_products
     }
 
     return render(request, 'myapp/product_detail.html', context)
+
+
+def addToBasket(request, pk):
+    quantity = request.POST.get('quantity', 1)
+    product = get_object_or_404(Products, id=request.POST.get('add_basket'))
+    basket = Basket.objects.filter(user=request.user).first()
+    basketItem = BasketItem.objects.filter(basket=basket).filter(product=product)
+
+    if not basket:
+        Basket.objects.create(
+            user=request.user
+        ).save()
+
+    if not basketItem:
+        BasketItem.objects.create(
+            basket=basket,
+            product=product,
+            quantity=int(quantity)
+        ).save()
+
+    messages.success(request, 'Product successfully added to your basket')
+    return HttpResponseRedirect(reverse('product_detail', args=[str(pk)]))
+
+
+def removeItem(request, pk):
+    basket = Basket.objects.filter(user=request.user).first()
+    product = get_object_or_404(Products, id=pk)
+
+    BasketItem.objects.filter(
+        basket=basket,
+        product=product
+    ).delete()
+
+    return HttpResponseRedirect(reverse('basket'))
+
+
+def remove_item(request, item_id):
+    my_basket = Basket.objects.filter(user=request.user).first()
+    item_to_remove = BasketItem.objects.filter(id=item_id, basket=my_basket).first()
+
+    if not item_to_remove:
+        messages.error(request, "Item not found in your basket")
+    else:
+        item_to_remove.delete()
+        messages.success(request, "Item removed from your basket")
+
+    return redirect('basket')
+
+
+def MyBasket(request):
+    basket = Basket.objects.filter(user=request.user).first()
+    basket_items = BasketItem.objects.filter(basket=basket)
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        mobile_phone = request.POST.get('mobile_number')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        country = request.POST.get('country')
+        post_code = request.POST.get('post_code')
+        payment_method = request.POST.get('payment_method')
+
+        if not (name and mobile_phone and email and address and city and country and post_code and payment_method):
+            return redirect('basket')
+
+        Delivery.objects.create(
+            basket=basket,
+            name=name,
+            mobile_phone=mobile_phone,
+            email=email,
+            address=address,
+            city=city,
+            country=country,
+            post_code=post_code,
+            payment_method=payment_method
+        ).save()
+
+        return redirect('/')
+
+    context = {
+        'basket_items': basket_items
+    }
+
+    return render(request, 'myapp/basket.html', context)
 
 
 def profile(request):
