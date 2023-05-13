@@ -1,12 +1,52 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<p>
-    Username: {{ request.user.username }} <br>
-    Name: {{ request.user.first_name }} {{ request.user.last_name }} <br>
-    Date Joined: {{ request.user.date_joined }} <br>
-    Email: {{ request.user.email }} <br>
-    Last Login: {{ request.user.last_login }} <br>
-    <a class="btn btn-primary btn-info " href="{% url 'edit_profile' %}">Edit</a>
-    <a class="btn btn-primary btn-danger " href="{% url 'logout' %}">Logout</a>
-    </p>
+    <style>
+        .row {
+        display: flex;
+        justify-content: center;
+        }
+        .icon {
+         display: flex;
+        justify-content: center;
+        }
+    </style>
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card card-body">
+
+                  <h3 style="text-align: center">Username: {{ request.user.username }} </h3>
+                  <hr>
+            <div class="icon">
+            <img src="{% static 'images/icon_user.jpg'%}" width="320px" height="350px">
+                </div>
+            <hr>
+            <a class="btn btn-primary btn-lg btn-danger" href="{% url 'logout' %}">Logout</a>
+        </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-body d-grid gap-2 d-md-block">
+                First Name: {{ request.user.first_name }} <br>
+                    <hr>
+                Last Name: {{ request.user.last_name }} <br>
+                    <hr>
+                Email: {{ request.user.email }}
+                    <hr>
+
+                {% if request.user.is_staff %}
+                    Admin Page:
+                <a class="btn btn-primary btn-info" href="{% url 'site_admin' %}">Join</a>
+                {% elif request.user.is_authenticated %}
+                    Last Seen:
+                {% endif %}
+
+                <hr>
+                Edit Profile: <a class="btn btn-primary btn-info" href="{% url 'edit_profile' %}">Edit</a>
+            </div>
+        </div>
+
+
+</div>
 {% endblock %}

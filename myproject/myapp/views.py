@@ -80,10 +80,10 @@ def edit_profile(request):
         password = request.POST.get('password1')
         user.set_password(password)
         user.save()
-        return redirect('/')
+        return redirect('sign_in')
 
     context = {'user': user}
-    return render(request, 'myapp/user.html', context)
+    return render(request, 'myapp/edit_profile.html', context)
 
 
 # Site Admin
@@ -222,7 +222,7 @@ def create_user(request):
         pass2 = request.POST.get('password2')
         user = User.objects.create_user(uname, email, pass1)
         user.save()
-        return redirect('site_admin')
+        return redirect('user_list')
 
     return render(request, 'myapp/user.html')
 
@@ -237,17 +237,17 @@ def edit_user(request, username):
         user.set_password(request.POST.get('password1'))
         # user.is_staff = bool(request.POST.get('is_staff'))
         user.save()
-        return redirect('site_admin')
+        return redirect('user_list')
 
     context = {'user': user}
-    return render(request, 'myapp/user.html', context)
+    return render(request, 'myapp/edit_profile.html', context)
 
 
 def delete_user(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
         user.delete()
-        return redirect('site_admin')
+        return redirect('user_list')
     context = {'user': user}
     return render(request, 'myapp/delete_user.html', context)
 

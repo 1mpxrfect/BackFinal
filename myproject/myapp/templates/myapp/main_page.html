@@ -4,26 +4,6 @@
 
     {% include 'myapp/carousel.html' %}
 
-    {% if user.is_authenticated %}
-                        <div class="pt-2">
-                            <div class="card p-3">
-                                <h3>Просмотренные товары</h3>
-                                <p>
-                                    <ul class="list-group list-group-horizontal">
-                                        {% for item_id, item_name in request.session.viewed_items %}
-                                        <li class="list-group-item">
-                                            <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
-                                            <img src="" width="200px" height="250px">
-                                            {% empty %}
-                                            Нет недавних товаров.
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </p>
-                            </div>
-                        </div>
-                    {% endif %}
-
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -166,6 +146,27 @@
                     </ul>
                 </div>
             </div>
+                {% if user.is_authenticated %}
+                        <div class="pt-2">
+                            <div class="card p-3">
+                                <h3>Просмотренные товары</h3>
+                                <p>
+                                    <ul class="list-group list-group-horizontal">
+                                        {% for item_id, item_name in request.session.viewed_items %}
+                                        <li class="list-group-item">
+                                            <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
+                                            <img src="" width="200px" height="250px">
+                                            {% empty %}
+                                            Нет недавних товаров.
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+
         </div>
+
     </div>
 {% endblock %}
