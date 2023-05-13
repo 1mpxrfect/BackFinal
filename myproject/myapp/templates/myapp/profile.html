@@ -1,33 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="row justify-content-center mt-4">
-        <div class="col-md-4">
-            <div class="card card-body">
-                <h3 style="text-align: center">Hello, {{ user.username }} </h3>
-                <hr>
-                <div class="icon d-flex justify-content-center">
-                    <img src="{% static 'images/icon_user.jpg' %}" width="350px" alt="User Icon">
+    <style>
+        .row {
+        display: flex;
+        justify-content: center;
+        }
+        .icon {
+         display: flex;
+        justify-content: center;
+        }
+    </style>
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card card-body">
+
+                  <h3 style="text-align: center">Username: {{ request.user.username }} </h3>
+                  <hr>
+            <div class="icon">
+            <img src="{% static 'images/icon_user.jpg'%}" width="320px" height="350px">
                 </div>
-                <hr>
-                <a class="btn btn-primary btn-lg btn-danger" href="{% url 'logout' %}">Logout</a>
-            </div>
+            <hr>
+            <a class="btn btn-primary btn-lg btn-danger" href="{% url 'logout' %}">Logout</a>
         </div>
+        </div>
+
         <div class="col-md-6">
             <div class="card card-body d-grid gap-2 d-md-block">
-                First Name: {{ user.first_name }} <br>
+                First Name: {{ request.user.first_name }} <br>
+                    <hr>
+                Last Name: {{ request.user.last_name }} <br>
+                    <hr>
+                Email: {{ request.user.email }}
+                    <hr>
+
+                {% if request.user.is_staff %}
+                    Admin Page:
+                <a class="btn btn-primary btn-info" href="{% url 'site_admin' %}">Join</a>
+                {% elif request.user.is_authenticated %}
+                    Last Seen:
+                {% endif %}
+
                 <hr>
-                Last Name: {{ user.last_name }} <br>
-                <hr>
-                Email: {{ user.email }}
-                <hr>
-                <div class="d-flex">
-                    {% if request.user.is_staff %}
-                        <a class="btn btn-info mr-5" href="{% url 'site_admin' %}">Admin Site</a>
-                    {% endif %}
-                    <a class="btn btn-success" href="{% url 'edit_profile' %}">Edit Profile</a>
-                </div>
+                Edit Profile: <a class="btn btn-primary btn-info" href="{% url 'edit_profile' %}">Edit</a>
             </div>
         </div>
-    </div>
+
+
+</div>
 {% endblock %}

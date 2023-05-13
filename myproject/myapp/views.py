@@ -1,12 +1,9 @@
-from django.dispatch import receiver
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.signals import user_logged_in
-from django.utils import timezone
 from django.contrib import messages
 
-from .forms import CreateUserForm, ProductForm, SearchForm, UserEditForm
+from .forms import CreateUserForm, ProductForm, SearchForm
 from .models import Products, Category, Comment
 import re
 from django.contrib.auth.models import User
@@ -74,14 +71,19 @@ def log_out(request):
 @login_required
 def edit_profile(request):
     user = request.user
+
     if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=user)
-        if form.is_valid():
-            user.save()
-            return redirect('profile')
-    else:
-        form = UserEditForm(instance=user)
-    return render(request, 'myapp/edit_profile.html', {'form': form, 'user': user})
+        user.uname = request.POST.get('username')
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        password = request.POST.get('password1')
+        user.set_password(password)
+        user.save()
+        return redirect('sign_in')
+
+    context = {'user': user}
+    return render(request, 'myapp/edit_profile.html', context)
 
 
 # Site Admin
@@ -207,13 +209,7 @@ def product_detail(request, pk):
 
 
 def profile(request):
-    # user_pk = request.user.id
-    # user = get_object_or_404(User, pk=user_pk)
-    user = request.user
-    context = {
-        'user': user,
-    }
-    return render(request, 'myapp/profile.html', context)
+    return render(request, 'myapp/profile.html')
 
 
 def create_user(request):
@@ -226,7 +222,7 @@ def create_user(request):
         pass2 = request.POST.get('password2')
         user = User.objects.create_user(uname, email, pass1)
         user.save()
-        return redirect('site_admin')
+        return redirect('user_list')
 
     return render(request, 'myapp/user.html')
 
@@ -241,17 +237,17 @@ def edit_user(request, username):
         user.set_password(request.POST.get('password1'))
         # user.is_staff = bool(request.POST.get('is_staff'))
         user.save()
-        return redirect('site_admin')
+        return redirect('user_list')
 
     context = {'user': user}
-    return render(request, 'myapp/user.html', context)
+    return render(request, 'myapp/edit_profile.html', context)
 
 
 def delete_user(request, username):
     user = get_object_or_404(User, username=username)
     if request.method == 'POST':
         user.delete()
-        return redirect('/site_admin/user_list')
+        return redirect('user_list')
     context = {'user': user}
     return render(request, 'myapp/delete_user.html', context)
 
