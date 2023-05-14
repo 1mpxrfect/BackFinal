@@ -3,151 +3,154 @@
 {% block content %}
 
     {% include 'myapp/carousel.html' %}
-<style>
-    .container {
-  max-width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-.card {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.card img {
-  border-radius: 15px;
-}
+    <style>
+        .container {
+            max-width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
 
-</style>
-<div class="container">
-  <div class="row d-flex justify-content-between align-items-center">
-    <div class="col-md-3">
-      <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
-        <div class="overflow-hidden" style="height: 200px;">
-            <a href="{% url 'books' %}">
-                <img src="{% static 'images/books.jpg' %}" class="card-img-top" alt="...">
-            </a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
-        <div class="overflow-hidden" style="height: 200px;">
-            <a href="{% url 'games' %}">
-                <img src="{% static 'images/games.jpg' %}" class="card-img-top" alt="...">
-            </a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
-        <div class="overflow-hidden" style="height: 200px;">
-            <a href="{% url 'toys' %}">
-                <img src="{% static 'images/toys.jpg' %}" class="card-img-top" alt="...">
-            </a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
-        <div class="overflow-hidden" style="height: 200px;">
-            <a href="{% url 'sweets' %}">
-                <img src="{% static 'images/sweets.jpg' %}" class="card-img-top" alt="...">
-            </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<br><br>
+        .card {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
 
-        <div class="row mt-4 mx-auto">
-            <div class="col-md-2">
-                <div class="d-flex flex-column">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">Фильтры:</h5>
-                            <form method="get" action="{% url 'filtered_catalog' %}">
-                                <form method="get" class="form-inline">
-                                    <label for="category">Категория:</label>
-                                    <select class="form-control" id="category" name="category">
-                                        <option value="">Все</option>
-                                        {% for category in categories %}
-                                            <option name="category">{{ category.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    <br>
-                                    <label>Цена:</label>
-                                    <div class="form-group mb-2">
-                                        <label for="min_price" class="sr-only">Минимальная цена:</label>
-                                        <input type="number" class="form-control" id="min_price"
-                                               name="min_price" placeholder="Минимальная цена"
-                                               value="{{ min_price }}">
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <label for="max_price" class="sr-only">Максимальная цена:</label>
-                                        <input type="number" class="form-control" id="max_price"
-                                               name="max_price" placeholder="Mаксимальная цена"
-                                               value="{{ max_price }}">
-                                    </div>
-                                    <br>
-                                    <button type="submit" class="btn btn-outline-success mb-2">Фильтровать</button>
-                                </form>
-                            </form>
-                        </div>
+        .card img {
+            border-radius: 15px;
+        }
+
+    </style>
+    <div class="container">
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-md-3">
+                <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
+                    <div class="overflow-hidden" style="height: 200px;">
+                        <a href="{% url 'books' %}">
+                            <img src="{% static 'images/books.jpg' %}" class="card-img-top" alt="...">
+                        </a>
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
+                    <div class="overflow-hidden" style="height: 200px;">
+                        <a href="{% url 'games' %}">
+                            <img src="{% static 'images/games.jpg' %}" class="card-img-top" alt="...">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
+                    <div class="overflow-hidden" style="height: 200px;">
+                        <a href="{% url 'toys' %}">
+                            <img src="{% static 'images/toys.jpg' %}" class="card-img-top" alt="...">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0" style="width: 100%; border-radius: 15px;">
+                    <div class="overflow-hidden" style="height: 200px;">
+                        <a href="{% url 'sweets' %}">
+                            <img src="{% static 'images/sweets.jpg' %}" class="card-img-top" alt="...">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br>
 
-            <div class="col-md-10">
-                <div class="row">
-                    <ul>
-                        {% for list in products %}
-                            <li class="mx-2 mb-5" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
-                                <a href="{% url 'product_detail' list.id %}" style="text-decoration:none; color:#000">
-                                    <img src="{{ list.picture.url }}" width="200px" height="230px">
-                                    <br>
-                                    <h5>{{ list.price }} KZT</h5>
-                                    <h6>{{ list.name }}</h6>
-                                    </a>
+    <div class="row mt-3 mx-auto">
+        <div class="col-md-3">
+            <div class="d-flex flex-column">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Фильтры:</h5>
+                        <form method="get" action="{% url 'filtered_catalog' %}">
+                            <form method="get" class="form-inline">
+                                <label for="category">Категория:</label>
+                                <select class="form-control" id="category" name="category">
+                                    <option value="">Все</option>
+                                    {% for category in categories %}
+                                        <option name="category">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <br>
+                                <label>Цена:</label>
+                                <div class="form-group mb-2">
+                                    <label for="min_price" class="sr-only">Минимальная цена:</label>
+                                    <input type="number" class="form-control" id="min_price"
+                                           name="min_price" placeholder="Минимальная цена"
+                                           value="{{ min_price }}">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="max_price" class="sr-only">Максимальная цена:</label>
+                                    <input type="number" class="form-control" id="max_price"
+                                           name="max_price" placeholder="Mаксимальная цена"
+                                           value="{{ max_price }}">
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-outline-success mb-2">Фильтровать</button>
+                            </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-md-9">
+            <div class="row">
+                <ul>
+                    {% for list in products %}
+                        <li class="mx-3 mb-5 p-3" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                            <a href="{% url 'product_detail' list.id %}" style="text-decoration:none; color:#000">
+                                <img src="{{ list.picture.url }}" width="200px" height="265px">
+                                <br>
+                                <h5>{{ list.price }} KZT</h5>
+                                <h6>{{ list.name }}</h6>
+                            </a>
+
+                        </li>
+                    {% empty %}
+                        <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+
+        {% if user.is_authenticated %}
+            <div class="pt-2">
+                <div class="p-3">
+                    <h3>Просмотренные товары</h3>
+                    <p>
+                    <ul class="list-group list-group-horizontal">
+                        {% for item_id, item_name in request.session.viewed_items %}
+                            <li class="mx-4 my-2 p-3" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                {% for product in products %}
+                                    {% if product.id == item_id %}
+                                        <a href="{% url 'product_detail' product.id %}"
+                                           style="text-decoration:none; color:#000">
+                                            <img src="{{ product.picture.url }}" width="200px" height="265px">
+                                            <br>
+                                            <h5>{{ product.price }} KZT</h5>
+                                            <h6>{{ item_name }}</h6>
+                                        </a>
+                                    {% endif %}
+                                {% empty %}
+                                    Нет недавних товаров.
+                                {% endfor %}
                             </li>
-                        {% empty %}
-                            <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
                         {% endfor %}
                     </ul>
+                    </p>
                 </div>
             </div>
-
-
-            {% if user.is_authenticated %}
-                <div class="pt-2">
-                    <div class="p-3">
-                        <h3>Просмотренные товары</h3>
-                        <p>
-                        <ul class="list-group list-group-horizontal">
-                            {% for item_id, item_name in request.session.viewed_items %}
-                                <li class="mx-4 my-2" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
-                                    {% for product in products %}
-                                        {% if product.id == item_id %}
-                                    <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:#000">
-                                    <img src="{{ product.picture.url }}" width="200px" height="230px">
-                                    <br>
-                                    <h5>{{ product.price }} KZT</h5>
-                                    <h6>{{ item_name }}</h6>
-                                    </a>
-                                        {% endif %}
-                                    {% empty %}
-                                        Нет недавних товаров.
-                                    {% endfor %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        </p>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
+        {% endif %}
+    </div>
 
     <script>
         function truncateText() {
