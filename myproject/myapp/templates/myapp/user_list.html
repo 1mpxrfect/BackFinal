@@ -1,10 +1,55 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="row mt-2">
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white mb-3" id="total-products">
+                    <div class="card-header">
+                        <h5 class="card-title">Total Products</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ total_products }}</h3>
+                        <a class="btn btn-primary btn-info " href="{% url 'site_admin' %}">View</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white mb-3" id="total-products">
+                    <div class="card-header">
+                        <h5 class="card-title">Total Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ total_orders }}</h3>
+                        <a class="btn btn-primary btn-info " href="{% url 'order_list' %}">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white mb-3" id="total-orders">
+                    <div class="card-header">
+                        <h5 class="card-title">Total Users</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ total_users }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
         <div class="col-md-12">
             <h5 class="text-center">Users</h5>
             <hr>
+                <a class="btn btn-info btn-lg col-12 mb-2" href="{% url 'create_user' %}">Add User</a><br>
+
             <div class="card-body">
+
                 <table class="table table-sm">
                     <tr>
                         <th>Username</th>
@@ -28,7 +73,6 @@
                         </tr>
                     {% endfor %}
                 </table>
-                <a class="btn btn-info btn-lg col-12 mb-2" href="{% url 'create_user' %}">Add User</a><br>
                 <a class="btn btn-danger btn-lg col-12" href="{% url 'site_admin' %}">Back</a>
             </div>
         </div>

@@ -1,22 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-
-
-<div class="product-list">
-<ul>
-  {% for list in books %}
-  <li>
-      <a href="{% url 'product_detail' list.id %}">
-          <img src="/media/{{ list.picture }}" width="200px" height="250px">
-      </a>
-      <br>
-      <span>{{ list.name }}</span>
-      <br>
-      <span>{{ list.category }}</span>
-      <br>
-      <span>{{ list.price }}</span>
-  </li>
-  {% endfor %}
-</ul>
-</div>
+            <div class="col-md-12">
+                <div class="row">
+                    <ul>
+                        {% for list in books %}
+                            <li class="mx-2 mb-5" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                                <a href="{% url 'product_detail' list.id %}" style="text-decoration:none; color:#000">
+                                    <img src="{{ list.picture.url }}" width="200px" height="230px">
+                                    <br>
+                                    <h5>{{ list.price }} KZT</h5>
+                                    <h6>{{ list.name }}</h6>
+                                    </a>
+                            </li>
+                        {% empty %}
+                            <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
 {% endblock %}

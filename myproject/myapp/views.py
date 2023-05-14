@@ -357,14 +357,36 @@ def delete_user(request, username):
 
 def user_list(request):
     users = User.objects.all()
-    context = {'users': users}
+    products = Products.objects.all()
+    total_products = products.count()
+
+    total_users = users.count()
+
+    orders = Delivery.objects.all()
+    total_orders = orders.count()
+
+    context = {'users': users,
+               'total_products': total_products,
+               'total_users': total_users,
+               'total_orders': total_orders
+               }
     return render(request, 'myapp/user_list.html', context)
 
 
 def order_list(request):
+    users = User.objects.all()
+    products = Products.objects.all()
+    total_products = products.count()
+
+    total_users = users.count()
+
     orders = Delivery.objects.all()
+    total_orders = orders.count()
     context = {
-        'orders': orders
+        'orders': orders,
+        'total_products': total_products,
+        'total_users': total_users,
+        'total_orders': total_orders
     }
     return render(request, 'myapp/order_list.html', context)
 
