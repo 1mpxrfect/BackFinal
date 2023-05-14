@@ -53,6 +53,9 @@
             </div>
             <div class="information_basket_block">
                 <div class="order_summary_basket_block">
+                    {% for message in messages %}
+                        <p id="messages">{{ message }}</p>
+                    {% endfor %}
                     {% for item in basket_items %}
                         <div class="item_basket_block">
                             <div class="main_information_item_basket_block">

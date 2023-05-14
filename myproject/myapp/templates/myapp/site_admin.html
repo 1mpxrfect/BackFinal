@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="row">
+    <div class="row mt-2">
         <div class="col">
             <div class="col-md">
                 <div class="card text-center text-white mb-3" id="total-products">
@@ -9,6 +9,19 @@
                     </div>
                     <div class="card-body">
                         <h3 class="card-title">{{ total_products }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="col-md">
+                <div class="card text-center text-white mb-3" id="total-products">
+                    <div class="card-header">
+                        <h5 class="card-title">Total Orders</h5>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">{{ total_orders }}</h3>
+                        <a class="btn btn-primary btn-info " href="{% url 'order_list' %}">View</a>
                     </div>
                 </div>
             </div>

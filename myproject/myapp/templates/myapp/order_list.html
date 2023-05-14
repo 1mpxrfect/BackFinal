@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mt-2">
+        <div class="col-md-12">
+            <h5 class="text-center">Orders</h5>
+            <hr>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Postcode</th>
+                        <th>Payment Method</th>
+                        <th>Date created</th>
+                        <th>Details</th>
+                    </tr>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.mobile_phone }}</td>
+                            <td>{{ order.address }}</td>
+                            <td>{{ order.city }}</td>
+                            <td>{{ order.country }}</td>
+                            <td>{{ order.post_code }}</td>
+                            <td>{{ order.payment_method }}</td>
+                            <td>{{ order.date_created }}</td>
+                            <td><a href="{% url 'basket_details' order.basket_id %}">Order Details</a></td>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <a class="btn btn-danger btn-lg col-12" href="{% url 'site_admin' %}">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

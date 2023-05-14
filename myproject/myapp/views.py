@@ -95,10 +95,14 @@ def site_admin(request):
     users = User.objects.all()
     total_users = users.count()
 
+    orders = Delivery.objects.all()
+    total_orders = orders.count()
+
     context = {
         'products': products,
         'total_products': total_products,
-        'total_users': total_users
+        'total_users': total_users,
+        'total_orders': total_orders
     }
     return render(request, 'myapp/site_admin.html', context)
 
@@ -355,6 +359,26 @@ def user_list(request):
     users = User.objects.all()
     context = {'users': users}
     return render(request, 'myapp/user_list.html', context)
+
+
+def order_list(request):
+    orders = Delivery.objects.all()
+    context = {
+        'orders': orders
+    }
+    return render(request, 'myapp/order_list.html', context)
+
+
+def basket_details(request, pk):
+    basket_details = Basket.objects.get(id=pk)
+    basket_items = BasketItem.objects.filter(basket=basket_details)
+
+    context = {
+        'basket_details': basket_details,
+        'basket_items': basket_items,
+    }
+
+    return render(request, 'myapp/basket_details.html', context)
 
 
 def product_search(request):

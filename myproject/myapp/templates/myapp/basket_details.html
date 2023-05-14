@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mt-4">
+    <div class="col-md-12">
+        <h5 class="text-center">Basket details for {{ basket_details.user }}</h5>
+        <hr>
+        <div class="row mx-auto mt-4">
+            <div class="col-md-9">
+                <div class="row">
+                    <ul>
+                        {% for item in basket_items %}
+                            <li class="mx-3 mb-5">
+                                <a href="{% url 'product_detail' item.product.id %}">
+                                    <img src="{{ item.product.picture.url }}" width="200px" height="300px">
+                                </a>
+                                <br>
+                                <span>{{ item.product.price }} KZT</span>
+                                <br>
+                                <span>{{ item.product.name }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex flex-column">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Order Details</h5>
+                            {% for item in basket_items %}
+                                {{ item.product.name }} | {{ item.quantity }} pcs
+                                <br>
+                            {% endfor %}
+                            <br><br>
+                            Total Price: {{ basket_details.get_total_price }} KZT
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <a class="btn btn-danger btn-lg col-12" href="{% url 'order_list' %}">Back</a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

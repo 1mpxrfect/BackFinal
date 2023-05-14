@@ -133,12 +133,12 @@
                         {% for list in products %}
                             <li class="mx-3 mb-5">
                                 <a href="{% url 'product_detail' list.id %}">
-                                    <img src="{{ list.picture.url }}" width="200px" height="250px">
+                                    <img src="{{ list.picture.url }}" width="200px" height="280px">
                                 </a>
                                 <br>
                                 <span>{{ list.price }} KZT</span>
                                 <br>
-                                <span id="productName">{{ list.name }}</span>
+                                <span>{{ list.name }}</span>
                             </li>
                         {% empty %}
                             <h3 class="text-center">Продуктов по вашему запросу не было найдено.</h3>
@@ -148,16 +148,24 @@
             </div>
             {% if user.is_authenticated %}
                 <div class="pt-2">
-                    <div class="card p-3">
+                    <div class="p-3">
                         <h3>Просмотренные товары</h3>
                         <p>
                         <ul class="list-group list-group-horizontal">
                             {% for item_id, item_name in request.session.viewed_items %}
-                                <li class="list-group-item">
-                                    <a href="item-detail/{{ item_id }}">{{ item_name }}</a><br>
-                                    <img src="" width="200px" height="250px">
+                                <li class="mx-4 my-2">
+                                    {% for product in products %}
+                                        {% if product.id == item_id %}
+                                            <a href="{% url 'product_detail' product.id %}">
+                                                <img src="{{ product.picture.url }}" width="200px" height="250px">
+                                            </a>
+                                            <br>
+                                            <span>{{ product.price }} KZT</span><br>
+                                            <span>{{ item_name }}</span><br>
+                                        {% endif %}
                                     {% empty %}
-                                    Нет недавних товаров.
+                                        Нет недавних товаров.
+                                    {% endfor %}
                                 </li>
                             {% endfor %}
                         </ul>

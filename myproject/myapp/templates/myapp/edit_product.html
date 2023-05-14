@@ -1,34 +1,30 @@
 {% extends 'myapp/main_page.html' %}
 {% load static %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="form-add">
         <h1 class="text-center my-5">Edit product <br> <i>{{ product.name }}</i></h1>
         <form class="mx-auto w-50" style="width: 50%" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <label style="text-align: center">Title</label>
-            {{ form.name }}
-            <br><br>
-            <label>Category</label>
-            {{ form.category }}
-            <br><br>
-            <label>Description</label>
-            <br>
-            {{ form.description }}
-            <br><br>
-            <label>Price</label>
-            {{ form.price }}
-            <br><br>
-            <label>Current picture</label>
-            <br>
+            {{ form.name|as_crispy_field }}
+            {{ form.description|as_crispy_field }}
+            <div class="form-row mb-2">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.price|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.category|as_crispy_field }}
+                </div>
+            </div>
             {% if product.picture %}
                 <img src="{{ product.picture.url }}" alt="Current Image" style="max-width: 200px; max-height: 200px;">
                 <br><br>
             {% endif %}
-            {{ form.picture }}
-            <br><br>
+            {{ form.picture|as_crispy_field }}
             <div class="d-flex justify-content-center">
-            <a href="{% url "site_admin" %}" class="btn btn-danger mr-5">Cancel</a>
-            <button type="submit" class="btn btn-success">Save Changes</button>
+                <a href="{% url "site_admin" %}" class="btn btn-danger mr-5">Cancel</a>
+                <button type="submit" class="btn btn-success">Save Changes</button>
             </div>
         </form>
     </div>
