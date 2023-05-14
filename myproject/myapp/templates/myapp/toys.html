@@ -5,9 +5,9 @@
                 <div class="row">
                     <ul>
                         {% for list in toys %}
-                            <li class="mx-2 mb-5" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+                            <li class="mx-2 mb-5 p-3" style="box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
                                 <a href="{% url 'product_detail' list.id %}" style="text-decoration:none; color:#000">
-                                    <img src="{{ list.picture.url }}" width="200px" height="230px">
+                                    <img src="{{ list.picture.url }}" width="200px" height="260px">
                                     <br>
                                     <h5>{{ list.price }} KZT</h5>
                                     <h6>{{ list.name }}</h6>
