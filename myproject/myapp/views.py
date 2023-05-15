@@ -2,6 +2,8 @@ from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.signals import user_logged_in
 from django.utils import timezone
@@ -80,10 +82,25 @@ def edit_profile(request):
         form = UserEditForm(request.POST, instance=user)
         if form.is_valid():
             user.save()
+            messages.success(request, 'Your profile data was successfully updated!')
             return redirect('profile')
     else:
         form = UserEditForm(instance=user)
     return render(request, 'myapp/edit_profile.html', {'form': form, 'user': user})
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'myapp/change_password.html', {'form': form})
 
 
 # Site Admin
@@ -311,8 +328,6 @@ def MyBasket(request):
 
 
 def profile(request):
-    # user_pk = request.user.id
-    # user = get_object_or_404(User, pk=user_pk)
     user = request.user
     context = {
         'user': user,

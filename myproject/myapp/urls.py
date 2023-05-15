@@ -26,6 +26,7 @@ urlpatterns = [
     path('site_admin/delete_product/<str:pk>/', views.delete_product, name='delete_product'),
 
     path('profile/edit_profile/', views.edit_profile, name='edit_profile'),
+    path('profile/change_password/', views.change_password, name='change_password'),
     path('site_admin/user_list/', views.user_list, name='user_list'),
     path('site_admin/order_list/', views.order_list, name='order_list'),
     path('site_admin/order_list/basket_details/<int:pk>', views.basket_details, name='basket_details'),

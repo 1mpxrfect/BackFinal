@@ -24,10 +24,10 @@ class UserEditForm(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'email']
 
 
-class ProductForm(forms.ModelForm):
+class ProductForm(ModelForm):
     class Meta:
         model = Products
-        fields = ['name', 'description', 'price', 'category', 'picture']
+        fields = '__all__'
 
 
 class ProductMediaForm(forms.ModelForm):
